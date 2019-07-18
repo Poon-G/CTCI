@@ -1,0 +1,56 @@
+#include<iostream>
+#include<string>
+bool CheckOneEditAway(std::string s1,std::string s2){ 
+ int count = 0;
+ int j=0,i=0;;
+ int m=s1.length();
+ int n=s2.length();
+ if(s1.length() > s2.length()){        //Insertion
+     while(i<m && j<n){
+      if(count > 1)
+        break;
+      if(s1[i] !=s2[j]){
+           i++;    //inserted a char in s2
+           count++;
+      }else{
+        i++;
+        j++;
+      }
+     }
+     if(i<m && j==n)
+     count++;
+ }else if(s1.length() == s2.length()){    //replace 
+    while(i<m && j<n){
+     if(s1[i] !=s2[j])
+      count++;
+     i++;j++;
+    }
+ }
+ else{            //remove
+  while(i<m && j<n){
+    if(s1[i] !=s2[j]){
+     count++;
+     j++;
+    }
+    else{
+      i++;
+      j++;
+    }
+  }
+  if(i==m && j<n)
+     count++;
+}
+   
+if(count <= 1)
+  return true;
+
+return false;
+}
+
+
+int main(){
+  std::string s="pale";
+  std::string s2="ple";
+  std::cout<<CheckOneEditAway(s,s2);
+}
+ 
