@@ -1,0 +1,105 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+int steps(int n){
+    if(n<0)
+    return 0;
+    if(n==1||n==0)
+    return 1;
+    
+    return steps(n-1)+steps(n-2)+steps(n-3);
+}
+void getSubstr(std::string s,std::vector<std::string>&res,int i,std::string &p,int &count){
+    if(!p.empty()){
+       //if(std::find(res.begin(),res.end(),p) == res.end()){
+        res.push_back(p);
+        count++;
+       //}
+    }
+        
+    if(i>=s.length())
+        return;
+    
+    for(;i<s.length();++i){
+        p.push_back(s[i]);
+        getSubstr(s,res,i+1,p,count);
+        p.pop_back();
+        //getSubstr(s,res,i+1,p,count);
+    }
+}
+
+void permutations(std::string s,int l){
+    if(l>s.size()){
+        return;
+    }
+    if(l==s.size())
+    std::cout<<s<<"\n";
+    
+    for(int i=l;i<s.size();++i){
+        std::swap(s[i],s[l]);
+        permutations(s,l+1);
+        std::swap(s[i],s[l]);
+    }
+    
+}
+
+void Paren(int n,int o,int c,std::string &s){
+    if(o>n || c>n)
+    return;
+    
+    if(o==n && c==n){
+        std::cout<<s<<"\n";
+        return;
+    }
+    if(o<n){
+        s.push_back('(');
+        Paren(n,o+1,c,s);
+        s.pop_back();
+    }
+    if(c<o){
+        s.push_back(')');
+        Paren(n,o,c+1,s);
+        s.pop_back();
+    }
+}
+
+int coins(int arr[],int n,int cent,int &count){
+    if(cent==0){
+     count +=1;
+     return 1;
+    }
+    
+    if(n<0)
+    return 0;
+    
+    if(arr[n-1]>cent)
+    return coins(arr,n-1,cent,count);
+    
+    return coins(arr,n,cent-arr[n-1],count) + coins(arr,n-1,cent,count);
+}
+int main()
+{
+    // std::string s="abcd";
+    // std::vector<std::string>res;
+    // std::string p;
+    // int count=0;
+    // getSubstr(s,res,0,p,count);
+    
+    // std::cout<<count<<"\n";
+    // for(auto it:res){
+    //     std::cout<<it<<"\n";
+    // }
+    
+    //permutations("abad",0);
+    // std::string s;
+    // Paren(3,0,0,s);
+    
+    int arr[]={25,10,5,1};
+    int n=4;
+    int count = 0;
+    coins(arr,n,6,count);
+    std::cout<<count<<"\n";
+    //std::cout<<steps(2)<<"\n";
+}
